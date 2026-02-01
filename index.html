@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Yuvan 🎉</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+background:radial-gradient(circle,#000428,#004e92);
+font-family:Arial;
+overflow:hidden;
+color:white;
+}
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:rgba(0,0,0,.4);
+display:flex;
+justify-content:space-around;
+padding:10px;
+z-index:5;
+}
+
+nav button{
+background:none;
+border:none;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+section{
+display:none;
+height:100vh;
+padding-top:70px;
+text-align:center;
+}
+
+.active{display:block;}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+h1{animation:glow 2s infinite alternate;}
+
+@keyframes glow{
+from{text-shadow:0 0 10px pink;}
+to{text-shadow:0 0 25px gold;}
+}
+
+.cake{
+font-size:90px;
+animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+50%{transform:translateY(-15px);}
+}
+
+.card{
+background:rgba(255,255,255,.15);
+margin:15px;
+padding:15px;
+border-radius:15px;
+}
+
+button.main{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:#ff4081;
+color:white;
+margin-top:15px;
+}
+
+.heart{
+position:absolute;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<button onclick="show('home')">🏠 Home</button>
+<button onclick="show('wishes')">💌 Wishes</button>
+<button onclick="show('gifts')">🎁 Gifts</button>
+</nav>
+
+<canvas id="confetti"></canvas>
+
+<!-- HOME -->
+<section id="home" class="active">
+<div class="cake">🎂</div>
+<h1>Happy Birthday</h1>
+<h2>Yuvan Shankar 💖</h2>
+<p>May your life shine with happiness & success 🥳</p>
+<button class="main" onclick="restart()">Celebrate 🎊</button>
+</section>
+
+<!-- WISHES -->
+<section id="wishes">
+<h1>💌 Birthday Wishes</h1>
+
+<div class="card">✨ May all your dreams come true!</div>
+<div class="card">🎉 Wishing you health, wealth & happiness!</div>
+<div class="card">🌈 Keep smiling and shining always!</div>
+<div class="card">💖 Have a magical year ahead!</div>
+
+</section>
+
+<!-- GIFTS -->
+<section id="gifts">
+<h1>🎁 Surprise Gifts</h1>
+
+<div class="card">🎂 Virtual Cake</div>
+<div class="card">💐 Flower Bouquet</div>
+<div class="card">🎵 Music Gift</div>
+<div class="card">⭐ Success Blessings</div>
+
+<p>All gifts are sent with love 😄</p>
+</section>
+
+<script>
+// NAVIGATION
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+// CONFETTI
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let p=[];
+
+function color(){return `hsl(${Math.random()*360},100%,50%)`;}
+
+function create(){
+p=[];
+for(let i=0;i<200;i++)
+p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:4+Math.random()*4,d:2+Math.random()*3,c:color()});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+p.forEach(e=>{
+ctx.beginPath();
+ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+ctx.fillStyle=e.c;
+ctx.fill();
+e.y+=e.d;
+if(e.y>canvas.height)e.y=-10;
+});
+requestAnimationFrame(draw);
+}
+
+create();
+draw();
+
+function restart(){create();}
+
+// HEARTS
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>
